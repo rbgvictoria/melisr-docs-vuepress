@@ -363,91 +363,54 @@ The Team Leader Collections Curation and Curation Officers can delete preparatio
 Shipment details are added to a loan by a Curation Officer once the specimens have been checked, scanned and packed.
 
 1.  Add details to the following fields:
-
--   **Date sent**
-
-<!-- -->
-
--   **Method** – the postal category used to send the shipment
-
--   **Reference no(s)** – the tracking reference number(s) for parcels (e.g. Registered Post, Customs Insured). Scan labels directly into this field, using a comma to separate entries. Ensure that the shipment method matches the label type.
-
--   **Number of parcels**
-
--   **Weight** – total weight of all parcels in the consignment
-
--   **Postage** – total cost of postage (calculate the postage using the online [Australia Post calculator](https://auspost.com.au/parcels-mail/calculate-postage-delivery-times/#/))
-
--   **Comments** – e.g. notable damage to a specimen.
-
-1.  Change the **Loan status** from ‘New’ to ‘Awaiting acknowledgement’
-
-2.  Save the **Loan** record.
+    -   **Date sent**
+    -   **Method** – the postal category used to send the shipment
+    -   **Reference no(s)** – the tracking reference number(s) for parcels (e.g. Registered Post, Customs Insured). Scan labels directly into this field, using a comma to separate entries. Ensure that the shipment method matches the label type.
+    -   **Number of parcels**
+    -   **Weight** – total weight of all parcels in the consignment
+    -   **Postage** – total cost of postage (calculate the postage using the online [Australia Post calculator](https://auspost.com.au/parcels-mail/calculate-postage-delivery-times/#/))
+    -   **Comments** – e.g. notable damage to a specimen.
+2.  Change the **Loan status** from ‘New’ to ‘Awaiting acknowledgement’
+3.  Save the **Loan** record.
 
 #### Printing loan paperwork
 
 1.  Go to the [Herbarium transaction paperwork](http://melisr.rbg.vic.gov.au/transactions) page
-
 2.  Select the relevant loan from the list. The list is sorted in descending order by loan number; greyed-out numbers are loans without preparations.
-
 3.  Print paperwork as follows:
-    
-    {: .table table-condensed }
-
     | White copy | Yellow copy | Pink copy |
     |-|-|-|
     | loan paperwork | loan paperwork | loan paperwork |
     | list of preparations |          |                |
     | loan conditions |               |                |
-
 4.  Print the required number of **Parcel labels** and an **Envelope**.
 
 #### Returning a databased MEL loan 
 
 1.  Open the [Loan returner](http://melisr.rbg.vic.gov.au/loanreturn)
-
 2.  Select the relevant loan from the drop-down list
-
 3.  Scan the returned specimens into the loan returner one by one (or scan into a Word or Excel document and copy and paste list of MEL numbers with each on a separate line)
-
 4.  Select **Update batch**
-
 5.  If necessary, adjust the **Quantity returned** (e.g. if multiple spirit or microscope slide preparations were sent, but not all have been returned)
-
 6.  Select the **Curation Officer**
-
 7.  Enter the **Date returned**
-
 8.  If necessary, enter the quarantine reference number in **Quarantine message**
-
 9.  Click **Return batch**
-
-10.  Open the relevant loan in MELISR and check that the **Loan preparation** table, **Quantity on loan**, **Loan status** and **Loan closed** are correct
-
-11.  Update **Returned comments** if details of previous returns have been entered
-
-12.  **Save** the loan form.
+10. Open the relevant loan in MELISR and check that the **Loan preparation** table, **Quantity on loan**, **Loan status** and **Loan closed** are correct
+11. Update **Returned comments** if details of previous returns have been entered
+12. **Save** the loan form.
 
 #### Returning an undatabased MEL loan (pre-1996 loans) 
 
 1.  Open the **Loan form** for the relevant loan and select **Edit**
-
 2.  Enter the number of specimens returned and the date in **Returned comments**, along with any relevant comments (quarantine reference number, discrepancies in number of specimens, etc). For example:
-
-    -   ‘5 returned, 3/3/2010.’
-    
-        Use a full stop between each entry.
-
+    +   ‘5 returned, 3/3/2010.’
+    <br>Use a full stop between each entry.
 3.  Update the **Quantity on loan** (in the top right-hand corner of the form). The quantity needs to be calculated manually.
-
 4.  For complete returns:
-
     -   change the **Loan status** to ‘Complete’
-    
     -   enter the date in **Loan closed**
-    
     -   flag the **Closed** check-box (in the bottom right-hand corner of the form)
-    
 5.  **Save** the loan form.
 
 #### Transferring a databased MEL loan
@@ -455,31 +418,18 @@ Shipment details are added to a loan by a Curation Officer once the specimens ha
 Loan transfers are entered by the Team Leader Collections Curation. Loan transfers must be formally requested by the institution to which they are to be transferred.
 
 1.  Create a record set and barcode string for the loan preparations to be transferred
-
 2.  Open the **Loan returner** (<http://melisr.rbg.vic.gov.au/loanreturn>)
-
 3.  Select the relevant loan from the list and enter the barcode string
-
 4.  Select the **Curation Officer**
-
 5.  Enter the **Date returned**
-
 6.  Select the **Transferred** checkbox
-
 7.  Click **Return batch**
-
 8.  In MELISR, open the **Loan form** for the relevant loan and select **Edit**
-
 9.  Enter the **Transfer loan no** (the existing MEL loan number, but with the institution code for the institution to which the loan is being transferred)
-
-10.  Check that the relevant loan preparations are flagged as returned, resolved and transferred in the **Loan preparations** table
-
-11.  Check that the **Loan status** and **Quantity on loan** are correct
-
-12.  **Save** the loan record
-
-13.  Create a new **Loan record**, add the relevant record set and add loan details:
-
+10. Check that the relevant loan preparations are flagged as returned, resolved and transferred in the **Loan preparations** table
+11. Check that the **Loan status** and **Quantity on loan** are correct
+12. **Save** the loan record
+13. Create a new **Loan record**, add the relevant record set and add loan details:
     -   **Loan status** – i.e. ‘Awaiting acknowledgement’
     -   **Date requested**
     -   **Description**
@@ -491,27 +441,19 @@ Loan transfers are entered by the Team Leader Collections Curation. Loan transfe
     -   **Prepared by**
     -   **Method** – i.e. ‘Transfer’
     -   **Comments** – i.e. ‘\[Quantity\] transferred from \[original institution\].’
-
-15.  **Save** the loan record.
+14. **Save** the loan record.
 
 #### Transferring an undatabased MEL loan (pre-1996 loans) 
 
 Loan transfers are entered by the Team Leader Collections Curation. Loan transfers must be formally requested by the institution to which they are to be transferred.
 
 1.  Open the loan form for the loan to be transferred and select **Edit**
-
 2.  Update the **Loan status** (if necessary) and **Quantity on loan**
-
 3.  Enter the **Transfer loan no** (the existing MEL loan number, but with the institution code for the institution to which the loan is being transferred)
-
 4.  Update **Returned comments**: ‘\[Quantity\] transferred, \[date\].’
-
 5.  Enter **Loan closed** (the date on which the loan is acknowledged as received by the institution to which it was transferred)
-
 6.  **Save** the loan record
-
 7.  Create a new **Loan record** and add loan details:
-
     -   **Loan status** – i.e. ‘Awaiting acknowledgement’
     -   **Date requested**
     -   **Description**
@@ -523,7 +465,6 @@ Loan transfers are entered by the Team Leader Collections Curation. Loan transfe
     -   **Prepared by**
     -   **Method** – i.e. ‘Transfer’
     -   **Comments** – i.e. ‘\[Quantity\] transferred from \[original institution\].’
-
 8.  **Save** the loan record.
 
 ## Outgoing exchange and donations
@@ -737,6 +678,7 @@ The date the record was last edited.
     *Note:* only ‘Duplicate’, ‘Seed duplicate’, ‘Silica gel sample’ and ‘Shipping material’ preparations should be added to Gift records.
 
 7.  Enter details in the following fields:
+
     -   **Category**
     -   **Description**
     -   **Gift agent(s) Name(s)** and **Role(s)**
@@ -779,15 +721,10 @@ The date the record was last edited.
 MEL occasionally ships specimens, samples or other materials that are not linked to MEL specimens (e.g. recently collected non-MEL specimens, unvouchered pollen samples). In such cases, a dummy record needs to be used in order to create a **Gift** record:
 
 1.  Open the dummy record MEL 999999A in MELISR and edit the preparation type and quantity in accordance with the type and quantity of material to be sent
-
 2.  Open the **Interactions** module and click **Gift** in the side bar
-
 3.  Select **Enter Catalogue Numbers** when prompted to choose source of preparations
-
 4.  Enter 9999999A
-
 5.  Select the **Preparation type** and **Quantity** and follow steps 7 and 14–19 as above
-
 6.  Return to the **Gift** record, delete the dummy preparation and save the record.
 
 #### Deleting preparations from a gift record
@@ -911,13 +848,9 @@ A four-digit reference number allocated when a loan is received at MEL. This fie
 The current status of the loan. The following values are available in the pick list:
 
 -   Requested – formal loan request sent but specimens not yet received at MEL
-
 -   Current – all specimens still at MEL (or some returned and confirmed as received)
-
 -   Returning – all or some specimens returned but not confirmed as received
-
 -   Complete – all specimens returned and confirmed as received
-
 -   Written off – all specimens lost or destroyed.
 
 ##### Quantity outstanding
@@ -1115,40 +1048,26 @@ The date the record was last edited.
 New non-MEL loan records are created by the Team Leader Collections Curation when the Manager Collections requests a loan:
 
 1.  Log in to MELISR and open the *Non-MEL loans* collection
-
 2.  Open the **Interactions** module
-
 3.  Click **Loan w/o Preps** in the side bar
-
 4.  Enter the following details:
-
     -   **Loan status** ­– ‘Requested’
     -   **Taxa**
     -   **Conditions**
     -   **Comments**
-
 5.  Add **Loan agents** (**Lending institution**, **Botanist(s)** and **Student**)
-
 6.  Delete the blank **Shipment** record
-
 7.  Save the **Loan** record.
 
 #### Processing an incoming non-MEL loan
 
 1.  Open the online **Loans** processing tool (http://melisr.rbg.vic.gov.au/loanreturn/loans)
-
 2.  Find the relevant loan using the **Find loan** function
-
     -   Select ‘Non-MEL loans’ the relevant Institution and ‘Requested loans’ and press **Submit**
-    
     -   Select the relevant loan based on the Botanist (and/or Student) and click on ‘Borrower’ to check that the taxa accord with the loan paperwork and specimens
-
 3.  Log in to MELISR and open the *non-MEL loans* collection
-
 4.  Find and open the loan record by entering the MEL ref. no. in the **Simple Search** box. (*Note:* **Simple search** needs to be configured for non-MEL loans – see **Configuring simple search**, p. 178.)
-
 5.  Select **Edit** and enter the following details:
-
     -   **Loan number**
     -   **Current due date**
     -   **Loan status** – ‘Current’
@@ -1159,31 +1078,20 @@ New non-MEL loan records are created by the Team Leader Collections Curation whe
     -   **Taxa** – if different to what was recorded when loan was requested
     -   **Conditions** ­ – e.g. permission for destructive sampling
     -   **Comments** ­­– if required
-
 6.  Save the record
-
 7.  If the loan contains specimens with barcodes, scan them in via the **Borrower** (http://melisr.rbg.vic.gov.au/borrower):
-    
     -   Select the relevant **MEL reference number** from the drop-down list
-    
     -   Scan the specimens into the **Enter barcodes** box (one barcode per line)
-    
     -   In the **Add preparations** box, select the relevant **Preparation type** and **Curation Officer** (if the loan contains more than one type of preparation, you will need to scan them in multiple batches)
-    
     -   Click **Add to loan**
-    
     -   In lieu of marking off specimens on the loan list, annotate the paperwork with ‘\[no. specimens\] received via Borrower, \[date and initials\]’.
 
 #### Returning a non-MEL loan without associated loan preparations
 
 1.  Log in to MELISR and open the *Non-MEL loans* collection
-
 2.  Find and open the loan record by entering the MEL ref. no. in the **Simple Search** box. (*Note:* **Simple Search** needs to be configured for non-MEL loans – see **Configuring simple search**, p. 178.)
-
 3.  Select **Edit** and create a new **Shipment** record
-
 4.  Enter the following details:
-
     -   **Shipped to** – this should always be the lending institution unless the loan is being transferred
     -   **Date sent**
     -   **Prepared by**
@@ -1194,56 +1102,35 @@ New non-MEL loan records are created by the Team Leader Collections Curation whe
     -   **Weight**
     -   **Postage**
     -   **Comments**
-
 5.  Edit the **Loan status** to ‘Returning’
-
 6.  Save the record
-
 7.  Check that **Quantity outstanding** has updated automatically and that it accords with the loan paperwork
-
 8.  Create paperwork for the consignment using the **Herbarium transactions paperwork** page: http://melisr.rbg.vic.gov.au/transactions
-
 9.  Create a PDF of the paperwork and e-mail it to the relevant Curator via the HerbMEL account
-
 10. Print three copies of the paperwork (pink copy to be retained at MEL, white and yellow copies to be sent with specimens).
 
 #### Returning a non-MEL loan with associated loan preparations
 
 1.  Open the **Borrower**: http://melisr.rbg.vic.gov.au/borrower
-
 2.  Select the relevant **MEL reference number** from the drop-down list
-
 3.  Scan the specimens into the **Enter barcodes** box (one barcode per line)
-
 4.  In the **Return preparations** box, select the relevant **Curation Officer** and edit the **Return date** if necessary (default is the current date)
-
 5.  Select **Prepare for return** and check that the relevant preparation and quantities are flagged in the loan preparation list
-
 6.  Select **Return**. The **Borrower** automatically adds a new shipment record to the relevant non-MEL loan record. Several fields need to be updated in MELISR.
-
 7.  Log in to MELISR and open the *Non-MEL loans* collection
-
 8.  Find and open the loan record by entering the MEL ref. no. in the **Simple Search** box. (*Note:* **Simple Search** needs to be configured for non-MEL loans – see **Configuring simple search**, p. 178.)
-
 9.  Select **Edit** and enter the following details in the relevant **Shipment** record:
-
     -   **Method**
     -   **Reference no(s)**
     -   **No. parcels**
     -   **Weight**
     -   **Postage**
     -   **Comments**
-
-10.  Save the record
-
-11.  Check that **Quantity outstanding** has updated automatically and that it accords with the loan paperwork
-
-12.  In lieu of marking off specimens on the loan list, annotate the paperwork with ‘\[no. specimens\] returned via Borrower, \[date and initials\]’
-
-13.  Create paperwork for the consignment using the **Herbarium transactions paperwork** page: http://melisr.rbg.vic.gov.au/transactions
-
-14.  Create a PDF of the paperwork and e-mail it to the relevant Curator via the HerbMEL account
-
-15.  Print three copies of the paperwork (pink copy to be retained at MEL, white and yellow copies to be sent with specimens).
+10. Save the record
+11. Check that **Quantity outstanding** has updated automatically and that it accords with the loan paperwork
+12. In lieu of marking off specimens on the loan list, annotate the paperwork with ‘\[no. specimens\] returned via Borrower, \[date and initials\]’
+13. Create paperwork for the consignment using the **Herbarium transactions paperwork** page: http://melisr.rbg.vic.gov.au/transactions
+14. Create a PDF of the paperwork and e-mail it to the relevant Curator via the HerbMEL account
+15. Print three copies of the paperwork (pink copy to be retained at MEL, white and yellow copies to be sent with specimens).
 
 

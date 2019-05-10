@@ -1,7 +1,10 @@
 module.exports = {
   title: 'MELISR documentation',
-  description: 'Just playing around',
+  base: '/melisr-docs-vuepress/',
   plugins: [
+    ['@vuepress/search', {
+      searchMaxSuggestions: 10      
+    }],
     '@vuepress/back-to-top',
     '@vuepress/last-updated',
     '@vuepress/active-header-links',
@@ -52,7 +55,7 @@ module.exports = {
         ['herbarium-interactions/', 'Herbarium interactions'],
       ],
       '/': [
-        ''
+        '/'
       ]
     }
   }

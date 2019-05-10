@@ -260,8 +260,11 @@ To edit an existing record:
 
     ![](./media/image43.png)
 
->   **Caution!**
->   When editing records, remember that the data changes in each related record that references that record. For example, if the spelling of a name in the **Last name** field is changed in an **Agent** record, the agent&#39;s name will be changed in the **Collectors** field in all **Collection object** records that link to that **Agent** record, and not just in the **Collection object** that is currently open. If the wrong collector was entered, the link to the wrong agent record needs to be deleted and a link to the correct agent needs to be added. |
+::: warning
+**Caution!**
+
+When editing records, remember that the data changes in each related record that references that record. For example, if the spelling of a name in the **Last name** field is changed in an **Agent** record, the agent&#39;s name will be changed in the **Collectors** field in all **Collection object** records that link to that **Agent** record, and not just in the **Collection object** that is currently open. If the wrong collector was entered, the link to the wrong agent record needs to be deleted and a link to the correct agent needs to be added.
+:::
 
 
 ### Pick lists
