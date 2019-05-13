@@ -2,7 +2,7 @@
 
 ## Collection object
 
-![](./media/image7.png)
+![](./media/img_collection_object_form.png)
 
 MELISR | AVH
 ---|---
@@ -13,7 +13,7 @@ MELISR | AVH
 
 ## Determination
 
-![](./media/image4.png)
+![](./media/img_determination_form.png)
 
 MELISR | AVH
 ---|---
@@ -36,7 +36,7 @@ MELISR | AVH
 
 ## Preparations
 
-![](./media/image8.png)
+![](./media/img_preparation_form.png)
 
 MELISR | AVH
 ---|---
@@ -50,7 +50,7 @@ MELISR | AVH
 
 ## Collecting event
 
-![](./media/image3.png)
+![](./media/img_collecting_event_form.png)
 
 MELISR | AVH
 ---|---
@@ -63,7 +63,7 @@ MELISR | AVH
 
 ## Locality
 
-![](./media/image6.png)
+![](./media/img_locality_form.png)
 
 MELISR | AVH
 ---|---
@@ -85,9 +85,7 @@ MELISR | AVH
 **Note** – dwc:coordinatePrecision and dwc:verbatimCoordinateSystem are derived from the verbatim latitude and longitude; dwc:verbatimSRS is the same as dwc:geodeticDatum, unless UTM is used, in which case it is the SRS of the MGA, AGM or UTM zone.
 :::
 
-## Geocoord. Detail
-
-![](./media/image2.png)
+### Geocoord. Detail
 
 MELISR | AVH
 ---|---
@@ -98,7 +96,7 @@ MELISR | AVH
 
 ## Collecting Event Attribute
 
-![](./media/image9.png)
+![](./media/img_collecting_event_attribute_form.png)
 
 MELISR | AVH
 ---|---
@@ -111,7 +109,7 @@ MELISR | AVH
 
 ## Collection Object Attribute
 
-![](./media/image1.png)
+![](./media/img_collection_object_attribute_form.png)
 
 MELISR | AVH
 ---|---
@@ -121,7 +119,7 @@ MELISR | AVH
 
 ## Other Identifier
 
-![](./media/image5.png)
+![](./media/img_other_identifier_form.png)
 
 MELISR | AVH
 ---|---
@@ -130,7 +128,7 @@ MELISR | AVH
 
 **Taxon**
 
-![](./media/image10.png)
+![](./media/img_taxon_form.png)
 
 MELISR | AVH
 ---|---
