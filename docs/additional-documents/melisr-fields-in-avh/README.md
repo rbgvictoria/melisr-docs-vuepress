@@ -7,8 +7,8 @@
 MELISR | AVH
 ---|---
 **Catalogue number** | dwc:catalogNumber
-**Descriptive notes** | <span style="color:red">Cannot be delivered</span>
-**Miscellaneous notes** | <span style="color:red">Cannot be delivered</span>
+**Descriptive notes** | dwc:occurrenceRemarks
+**Miscellaneous notes** | dwc:occurrenceRemarks
 **GUID** (not on form) | dwc:occurrenceID
 
 ## Determination
@@ -17,7 +17,7 @@ MELISR | AVH
 
 MELISR | AVH
 ---|---
-**Determination type** | abcd:IdentifierRole
+**Determination type** | <del>abcd:IdentifierRole</del>
 **Determiner** | dwc:identifiedBy
 **Date** | dwc:dateIdentified
 **Taxon name** | dwc:scientificName
@@ -41,8 +41,8 @@ MELISR | AVH
 MELISR | AVH
 ---|---
 **Preparation type** | dwc:preparations
-**Loans** | abcd:LoanNumber/abcd:LoanDestination
-**MEL duplicates at** | abcd:DuplicatesDistributedTo
+**Loans** | abcd:LoanNumber/abcd:LoanDestination <span style="color:red; font-weight: bold;">-> GGBN</span>
+**MEL duplicates at** | <del>abcd:DuplicatesDistributedTo</del>
 
 ::: warning
 **Note** – What we deliver to AVH as abcd:DuplicatesDistributedTo actually comes from the exchange system, not the field on the Preparation form.
@@ -59,7 +59,8 @@ MELISR | AVH
 **Start date** | dwc:eventDate
 **End date** | dwc:eventDate
 **Habitat** | dwc:habitat
-**Collecting notes** | dwc:eventRemarks
+**Collecting notes** | dwc:occurrenceRemarks
+**Collecting trip** | dec:eventRemarks
 
 ## Locality
 
@@ -67,7 +68,7 @@ MELISR | AVH
 
 MELISR | AVH
 ---|---
-**Geography** | dwc:country/dwc:stateProvince
+**Geography** | dwc:country/dwc:stateProvince/dwc:county
 **Locality** | dwc:verbatimLocality
 **Latitude** | dwc:decimalLatitude/dwc:verbatimLatitude
 **Longitude** | dwc:decimalLongitude/dwc:verbatimlongitude
@@ -76,6 +77,14 @@ MELISR | AVH
 **Precision** | dwc:coordinateUncertaintyInMeters
 **Minimum altitude** | dwc:minimumElevationInMeters
 **Maximum altitude** | dwc:maximumAltitudeInMeters
+
+### Locality Detail
+
+MELISR | AVH
+---|---
+**Water body** | dwc:waterBody
+**IslandGroup** | dwc:islandGroup
+**Island** | dwc:island
 **UTM** | dwc:verbatimCoordinates (proposed)
 **Map reference** | dwc:georeferenceSources (proposed)
 **Minimum depth** | dwc:minimumDepthInMeters
