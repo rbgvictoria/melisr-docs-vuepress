@@ -26,7 +26,7 @@ MELISR | AVH
 **Addendum** | abcd:NameAddendum
 **Type status** | dwc:typeStatus (DwC compliant value is stored in co.Description)
 **Type qualifier** | If there is a type status qualifier, type status is not delivered
-**Extra information** | dwc:identificationRemarks
+**Extra information** | <del>dwc:identificationRemarks</del>
 **Determination notes** | dwc:identificationRemarks
 **GUID** (not on form) | dwc:identificationID
 

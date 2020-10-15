@@ -53,6 +53,8 @@ module.exports = {
       '/additional-documents/': [
         'melisr-fields-in-avh/',
         ['herbarium-interactions/', 'Herbarium interactions'],
+        ['business-case/', 'Business case (2009)'],
+        ['specify-dwc-mapping/', 'Specify to Darwin Core mapping']
       ],
       '/': [
         '/'
