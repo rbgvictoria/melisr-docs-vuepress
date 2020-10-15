@@ -1,12 +1,43 @@
 # Specify to Darwin Core mapping
 
+The National Herbarium of Victoria (MEL), like other Australian herbaria, used 
+to deliver data to the Australasian Virtual Herbarium (AVH) as ABCD 2.06 through 
+a BioCASe provider. The table structure that fed the BioCASe provider was 
+created using a PHP application that has become very hard to maintain. 
+
+The Atlas of Living Australia (ALA), which has been hosting the AVH since 2012, 
+has never accepted ABCD, so for the last eight years MEL has been harvesting the 
+BioCASe providers of other Australian herbaria as well and has been transforming 
+ABCD to Darwin Core, which was then delivered as deltas in Darwin Core Archives 
+to ALA.
+
+When the deltas became a problem for ALA – or we finally realised they were a 
+problem – MEL has started weekly delivery of the full AVH data set of 5M records 
+to ALA through the GBIF Integrated Publishing Toolkit (IPT). At that time, early 
+2019, it was decided that we would phase out the BioCASe providers and that all 
+Australian herbaria should prepare to deliver their own data as Darwin Core 
+Archives directly to ALA.
+
+The biggest barrier for MEL to export data from our collections database 
+directly as Darwin Core was that the MEL AVH data set in ALA also contained the 
+data that was harvested from other Australian herbaria's BioCASe providers and 
+that some herbaria will keep depending on MEL harvesting their BioCASe providers 
+longer than others. So we have had a Darwin Core mapping for over a year without 
+being able to use it.
+
+Over the first half of 2020 the MEL AVH data resource in ALA was split into 
+individual data resources for each herbarium (which was not nearly as easy as it 
+sounds). This opened the way for MEL to start exporting data from its Specify 
+database directly as Darwin Core into an IPT using the Schema Mapper and Data 
+Exporter tool that are available in Specify.
+
 ## Pre-processing
 
 For many terms there is no straight mapping from the Specify data model – or 
 at least the implementation at the National Herbarium of Victoria – to Darwin 
 Core terms, so some pre-processing of data is necessary. 
 
-I have tried to do as much as possible in SQL, which can be stored in the 
+I have tried to do this as much as possible in SQL, which can be stored in the 
 database as functions and stored procedures, but for some of the **Location** 
 terms the processing needed went beyond what I can do in MySQL, so I have 
 used a bit of Python as well.
@@ -38,7 +69,7 @@ VALUES (now(), now(), 0, 1, 'xs:dateTimeIso', 'modified', 14);
 #### reproductiveCondition
 
 We map what we call "Phenology" in the herbarium community to 
-`reproductiveCondition` in Darwin Core, which is not ideal, but the best we can 
+`reproductiveCondition` in Darwin Core, which is not ideal but the best we can 
 do at the moment. Phenology in the herbarium world is mainly the presence of 
 certain reproductive structures on specimens. We use five fields in the 
 [**Collection Object Attribute**](https://data.rbg.vic.gov.au/specify/specifyschema/table/collectionobject) 
@@ -59,7 +90,7 @@ BEGIN
 	declare var_buds varchar(8);
 	declare var_fertile varchar(8);
 	declare var_sterile varchar(8);
-  declare out_reproductive_condition varchar(128);
+    declare out_reproductive_condition varchar(128);
     
 	SELECT coa.Text13, coa.Text14, coa.Text15, coa.Text17, coa.Text18
     INTO var_flower, var_fruit, var_buds, var_fertile, var_sterile
@@ -118,8 +149,8 @@ DELIMITER ;
 #### establishmentMeans
 
 We still record what is called `establishmentMeans` in Darwin Core in the way 
-HISPID used to recommend and have two fields **Introduced status** (`Text11`) 
-and **Cultivated status** (`Text13`) in the 
+HISPID used to recommend and have two fields, **Introduced status** (`Text11`) 
+and **Cultivated status** (`Text13`), in the 
 [**Collecting Event Attribute**](https://data.rbg.vic.gov.au/specify/specifyschema/table/collectingeventattribute) 
 table. We should probably adopt the Darwin Core recommendation, as that is what 
 we do in our flora, but for now we need to convert the content of the two fields 
@@ -162,7 +193,7 @@ END$$
 DELIMITER ;
 ```
 
-The resulting value is store in `Text7` in the **Collecting Event Attribute** 
+The resulting value is stored in `Text7` in the **Collecting Event Attribute** 
 table.
 
 ```sql
@@ -207,9 +238,10 @@ post-processing.
 The Specify **Geography** table has a `GeographyCode` column that has the 
 `countryCode` filled in for countries, but has different values or no value for 
 administrative areas within a country. Therefore, if you map the Specify 
-`GeographyCode` to the Darwin Core `countryCode`, you'll get mostly *NULL* values.
+`GeographyCode` to the Darwin Core `countryCode`, you will end up with mostly 
+*NULL* values.
 
-The following function obtains the `countryCode` fro administrative areas within 
+The following function obtains the `countryCode` for administrative areas within 
 countries:
 
 ```sql
@@ -257,19 +289,19 @@ END$$
 DELIMITER ;
 ```
 
-This does not really count as pre-processing, as it has to be done only once and 
-after that can be manually filled in when new areas are added.
+This has to be done only once and after that can be manually filled in when new 
+areas are added to the database (a very infrequent event for us).
 
 #### minimumElevationInMeters, maximumElevationInMeters, verbatimElevation
 
-In Specify you can store altitude in different units and, we make use use of 
+In Specify you can store altitude in different units and we make use use of 
 that, as we have many historical collections with altitudes given in feet, so we 
-have altitudes in metres and feet. Darwin Core only 
-accepts altitude in metres, so we have to convert the ones that are in feet. We 
-want to deliver the original values in feet as `verbatimElevation`, but do not 
-want to overwrite the verbatim altitudes we already have. Therefore, we need 
-fields for `minimumElevationInMeters`, `maximumElevationInMeters` and 
-`verbatimElevation`. I have put them in `Number1`, `Number2` and `Text3` in the 
+have altitudes in metres and feet. Darwin Core only accepts altitude in metres, 
+so we have to convert the ones in feet. We want to deliver the original values 
+in feet as `verbatimElevation`, but do not want to overwrite the verbatim 
+altitudes we already have. Therefore, we need fields for 
+`minimumElevationInMeters`, `maximumElevationInMeters` and `verbatimElevation`. 
+I have put them in `Number1`, `Number2` and `Text3` in the 
 [**Locality Detail**](https://data.rbg.vic.gov.au/specify/specifyschema/table/locality) 
 table.
 
@@ -336,9 +368,9 @@ DELIMITER ;
 
 The situation with the depth fields is like that for the altitude fields, only 
 there is an extra unit, fathoms, and the depth field are already in the 
-**Locality detail** table. I have put `minimumDepthInMeters`, 
-`maximumDepthInMeters` and `verbatimDepth` in `Number3`, `Number4` and `Text4` 
-respectively.
+**Locality detail** table, so it is an easier procedure. I have put 
+`minimumDepthInMeters`, `maximumDepthInMeters` and `verbatimDepth` in `Number3`, 
+`Number4` and `Text4` respectively.
 
 ```sql
 DELIMITER $$
@@ -390,12 +422,12 @@ DELIMITER ;
 
 Geo-reference data is in the **Location** class in Darwin Core, but the class 
 has too many properties to fit in a single screenshot and Specify has a separate 
-table for it (at least for some of the properties).
+table for at least some of the geo-reference related properties.
 
 #### coordinateUncertaintyInMeters
 
-We – and some other Australian herbaria – have traditionally used a rather crude 
-rank system to record coordinate uncertainty:
+We – and some other Australian herbaria – have traditionally used a – now 
+seeming rather crude – rank system to record coordinate uncertainty:
 
 - 1: &lt; 50 m
 - 2: 50–1000 m
@@ -437,9 +469,9 @@ Specify has a `GeoRefAccuracy` field, which I think fits the bill. The following
 procedure will store the value of `MaxUncertaintyEst` if it's there and 
 otherwise the returned value of the function above in that field. As the 
 **Uncertainty** (`OriginalElevationUnit`) field is in the **Locality** table and 
-we will have it for locality records that do not have a **Geo Coord. Detail** 
-record, new **Geo Coord. Detail** records will need to be created for those 
-records.
+we will have it for locality records that do not yet have a **Geo-coord. 
+Detail** record, new **Geo-coord. Detail** records will need to be created for 
+those records.
 
 ```sql
 DROP procedure IF EXISTS `update_coordinate_uncertainty_in_meters`;
@@ -470,12 +502,11 @@ DELIMITER ;
 
 #### verbatimCoordinateSystem and coordinatePrecision
 
-`verbatimCoordinateSystem` could be easily derived from the `OriginalLatLongUnit` 
-(or `SrcLatLongUnit`) field in the **Locality** table, and that is what I used 
-to do, but, since we started using Specify 7 we have been finding some incorrect 
-values for `OriginalLatLongUnit`, so, for the moment, I infer 
-`verbatimCoordinateSystem` myself from the `Lat1Text` and `Long1Text` fields. 
-The obtained value is stored in the `OriginalCoordSystem` field in the 
+I used to derive `verbatimCoordinateSystem` the `OriginalLatLongUnit` field in 
+the **Locality** table, but, since we started using Specify 7 we have been 
+finding some incorrect values for `OriginalLatLongUnit`, so, for the moment, 
+I infer `verbatimCoordinateSystem` myself from the `Lat1Text` and `Long1Text` 
+fields. The obtained value is stored in the `OriginalCoordSystem` field in the 
 **Geo-coord. Detail** table.
 
 Specify does not have `coordinatePrecision`, so it is calculated from the 
@@ -484,8 +515,8 @@ test that fails when the number of decimals of the `coordinatePrecision` is
 different from that of `decimalLatitude` and `decimalLongitude`, so we need a 
 field of type Decimal with 10 digits – because that is what `Latitude1` and 
 `Longitude1` have – to store the value. We are using `NamedPlaceExtent` in the 
-**Geo-coord. Detail** table, which fits the bill and was not used before, but it would 
-be good to have a dedicated field for `coordinatePrecision`.
+**Geo-coord. Detail** table, which fits the bill and was not used before, but it 
+would be good to have a dedicated field for `coordinatePrecision`.
 
 The Python code below calculates `verbatimCoordinateSystem` and 
 `coordinatePrecision`. As for the calculation of both terms `Lat1Text` and 
@@ -566,10 +597,10 @@ def decimal_precision(str):
 
 #### identificationQualifier
 
-Specify has the `Qualifier`, `SubSpQualifier` and `VarQualifier` fields to deal with 
-uncertain determinations. In our implementation we just use the `Qualifier` field 
-and have a pick list field for the rank that the qualifier applies to on the 
-`VarQualifier` field.
+Specify has the `Qualifier`, `SubSpQualifier` and `VarQualifier` fields to deal 
+with uncertain determinations. In our implementation we just use the `Qualifier` 
+field and have a pick list field for the rank that the qualifier applies to on 
+the `VarQualifier` field.
 
 The Darwin Core [`identificationQualifier`](https://dwc.tdwg.org/terms/#dwc:identificationQualifier) 
 is a string that contains the qualifier and all parts of the name that come 
@@ -674,7 +705,7 @@ END $$
 DELIMITER ;
 ```
 
-The value that is returned by this function is then stored in the `Text1` field:
+The value that is returned by this function is stored in the `Text1` field:
 
 ```sql
 DELIMITER $$
@@ -694,16 +725,16 @@ DELIMITER ;
 
 Specify deals with nomenclatural type designations as determinations, so so do 
 we. We have a determination type – in the `FeatureOrBasis` field – 'Type 
-status'. As, in our implementation, 'Type status' determinations are never 
+status' to indicate that a determination is really a nomenclatural type status 
+designation. As, in our implementation, 'Type status' determinations are never 
 current determinations, they will be excluded from the Darwin Core Occurrence 
 Core mapping, because in the query underlying the mapping `Is Current` will be 
 set to 'Yes'. Also, the Darwin Core `typeStatus` is different from the Specify 
-`Type Status`, as apart from the type of type, it also contains the typified 
-name and, optionally, other information. Therefore we store the Darwin Core 
-`typeStatus` in a field in the **Collection Object** table.
+`Type Status` in that, apart from the type of type, it also contains the 
+typified name and, optionally, other information. Therefore we store the Darwin 
+Core `typeStatus` in a field in the **Collection Object** table.
 
 The following function compiles the Darwin Core `typeStatus` string:
-
 
 ```sql
 DELIMITER $$
@@ -715,7 +746,7 @@ DELIMITER $$
 */
 DROP FUNCTION IF EXISTS `dwc_type_status` $$
 CREATE FUNCTION `dwc_type_status` (colobjid INT) 
-    RETURNS VARCHAR(1024) CHARSET utf8
+RETURNS VARCHAR(1024) CHARSET utf8
 BEGIN
     DECLARE var_typeOfType VARCHAR(32);
     DECLARE var_scientificName VARCHAR(128);
@@ -806,13 +837,6 @@ UPDATE taxon SET Text5="Name" WHERE RankID>220;
 The following query is used for the **Occurrence Core** in the IPT:
 
 ```sql
-/**
- * Author:  Niels.Klazenga <Niels.Klazenga at rbg.vic.gov.au>
- * Created: 11/10/2020
- */
-
-USE melisr;
-
 SELECT
   m.occurrenceID,
   
@@ -917,13 +941,13 @@ JOIN mel_avh_occurrence_core_agent_id ai ON m.mel_avh_occurrence_coreId=ai.Colle
 
 Many terms have the same value for every record in the data set. Currently, the 
 ALA ingestion pipeline does not honour the defaults set in the `meta.xml` file 
-of the Darwin Core Archive. You can set them elsewhere, but I prefer to have 
-them in the data.
+of the Darwin Core Archive. You can set default values elsewhere, but I prefer 
+to have everything in the data.
 
 #### Aggregated terms
 
-We prefer to use a semicolon as the separrator for aggregated fields, but Darwin 
-Core prefers pipes, so I replace the semicolons with pipes.
+We prefer to use a semicolon as the separrator in aggregated values, but Darwin 
+Core recommends pipes, so I replace the semicolons with pipes.
 
 #### Incomplete dates
 
@@ -945,14 +969,15 @@ DELIMITER ;
 
 #### startDayOfYear
 
-I am not sure how useful `startDayOfYear` is, but it is easily calculated from 
-the `eventDate`.
+I am not sure how useful `startDayOfYear` is, but I can imagine a use for it in 
+phenology studies and it is calculated easily enough from the `eventDate`.
 
 ```sql
 DROP function IF EXISTS `ipt_startDayOfYear`;
 
 DELIMITER $$
-CREATE DEFINER=`admin`@`%` FUNCTION `ipt_startDayOfYear`(in_date varchar(16)) RETURNS int(11)
+CREATE DEFINER=`admin`@`%` FUNCTION `ipt_startDayOfYear`(in_date varchar(16)) 
+RETURNS int(11)
 BEGIN
 	DECLARE var_iso_date varchar(16);
     SET var_iso_date=ipt_iso_date(in_date);
@@ -969,15 +994,16 @@ DELIMITER ;
 #### verbatimLatitude, verbatimLongitude
 
 Specify often puts '0° S' in `Lat1Text` when there is no latitude and 
-longitude, so we only deliver a value for `verbatimLatitude` and 
-`verbatimLongitude` if we also have `decimalLatitude` and `decimalLongitude`.
+longitude, which is harmless, but does not look so good if it ends up in a data 
+set, so we only deliver a value for `verbatimLatitude` and `verbatimLongitude` 
+if we also have `decimalLatitude` and `decimalLongitude`.
 
 #### verbatimSRS, geodeticDatum
 
 We have datums in our database, but Darwin Core recommends Spatial Reference 
 System (SRS). You could map the values in the IPT, but then you would have to 
-verify that every time you change something in the IPT and, moreover, you would 
-have to do it twice. So I do it in the data.
+verify that the mapping is still there every time you change something in the 
+IPT and, moreover, you would have to do it twice. So I do it in the query.
 
 ```sql
 DROP function IF EXISTS `srs_from_datum`;
