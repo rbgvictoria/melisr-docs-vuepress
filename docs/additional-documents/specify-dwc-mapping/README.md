@@ -31,20 +31,7 @@ sounds). This opened the way for MEL to start exporting data from its Specify
 database directly as Darwin Core into an IPT using the Schema Mapper and Data 
 Exporter tool that are available in Specify.
 
-## Pre-processing
-
-For many terms there is no straight mapping from the Specify data model – or 
-at least the implementation at the National Herbarium of Victoria – to Darwin 
-Core terms, so some pre-processing of data is necessary. 
-
-I have tried to do this as much as possible in SQL, which can be stored in the 
-database as functions and stored procedures, but for some of the **Location** 
-terms the processing needed went beyond what I can do in MySQL, so I have 
-used a bit of Python as well.
-
-### Record Level Terms
-
-![DwC mapping Record Level Terms](./media/record-level-terms-2020-10-14-132111.jpg)
+## Preparing the schema
 
 Because Darwin Core has been updated since we first set up our database about 
 ten years ago, I had to import the latest Darwin Core Schema. The Darwin Core 
@@ -59,6 +46,39 @@ INSERT INTO spexportschemaitem (TimestampCreated, TimestampModified, Version,
     CreatedByAgentID, DataType, FieldName, SpExportSchemaID)
 VALUES (now(), now(), 0, 1, 'xs:dateTimeIso', 'modified', 14);
 ```
+
+Also, the collecting date is stored in Specify as `StartDate` and `EndDate`, 
+the Darwin Core `eventDate` is an ISO 8601 date string with the start and end 
+date separated by a slash ('/'). Therefore, if there is an end date (I 
+discovered that almost 4,000 of our records have one), it can not be mapped 
+correctly to `eventDate`. I have "resolved" this by adding `eventDateStart` 
+and `eventDateEnd` to the schema.
+
+```sql
+INSERT INTO spexportschemaitem (TimestampCreated, TimestampModified, Version, 
+    CreatedByAgentID, DataType, FieldName, SpExportSchemaID)
+VALUES (now(), now(), 0, 1, 'xs:dateTimeIso', 'eventDateStart', 14),
+    (now(), now(), 0, 1, 'xs:dateTimeIso', 'eventDateEnd', 14);
+```
+
+`eventDateStart` and `eventDateEnd` will be concatenated into `eventDate` in the 
+query that feeds the IPT.
+
+
+## Pre-processing
+
+For many terms there is no straight mapping from the Specify data model – or 
+at least the implementation at the National Herbarium of Victoria – to Darwin 
+Core terms, so some pre-processing of data is necessary. 
+
+I have tried to do this as much as possible in SQL, which can be stored in the 
+database as functions and stored procedures, but for some of the **Location** 
+terms the processing needed went beyond what I can do in MySQL, so I have 
+used a bit of Python as well.
+
+### Record Level Terms
+
+![DwC mapping Record Level Terms](./media/record-level-terms-2020-10-14-132111.jpg)
 
 ### Occurrence
 
@@ -221,11 +241,11 @@ DELIMITER ;
 
 ![](/specify-icon-18px.png) [**Collecting Event**](https://data.rbg.vic.gov.au/specify/specifyschema/table/collectingevent)
 
-![DwC mapping Event](./media/event-2020-10-14-132813.jpg)
+![DwC mapping Event](./media/event-2020-10-21-104508.jpg)
 
 No pre-processing is necessary for any of the properties of the **Event** class. 
-I fix up the `eventDate` for incomplete dates and add `startDayOfYear` in 
-post-processing. 
+I concatenate `eventDateStart` and `eventDateEnd` into `eventDate`, fix up 
+`eventDate` for incomplete dates and add `startDayOfYear` in post-processing. 
 
 ### Location
 
@@ -345,10 +365,14 @@ BEGIN
     CASE 
       WHEN l.VerbatimElevation IS NOT NULL THEN l.VerbatimElevation
       ELSE
-            CASE l.Text1
-          WHEN 'ft' THEN CASE WHEN l.MaxElevation IS NULL THEN CONCAT_WS(' ', l.MinElevation, l.Text1) ELSE CONCAT(l.MinElevation, '–', l.MaxElevation, ' ', l.Text1) END
-              ELSE NULL
+        CASE l.Text1
+          WHEN 'ft' THEN 
+            CASE 
+              WHEN l.MaxElevation IS NULL THEN CONCAT_WS(' ', l.MinElevation, l.Text1) 
+              ELSE CONCAT(l.MinElevation, '–', l.MaxElevation, ' ', l.Text1) 
             END
+          ELSE NULL
+        END
     END AS VerbatimElevation
     FROM locality l
     LEFT JOIN localitydetail ld ON l.LocalityID=ld.LocalityID
@@ -502,8 +526,8 @@ DELIMITER ;
 
 #### verbatimCoordinateSystem and coordinatePrecision
 
-I used to derive `verbatimCoordinateSystem` the `OriginalLatLongUnit` field in 
-the **Locality** table, but, since we started using Specify 7 we have been 
+I used to derive `verbatimCoordinateSystem` from the `OriginalLatLongUnit` field 
+in the **Locality** table, but, since we started using Specify 7 we have been 
 finding some incorrect values for `OriginalLatLongUnit`, so, for the moment, 
 I infer `verbatimCoordinateSystem` myself from the `Lat1Text` and `Long1Text` 
 fields. The obtained value is stored in the `OriginalCoordSystem` field in the 
@@ -841,25 +865,25 @@ SELECT
   m.occurrenceID,
   
   -- Record Level Terms
-  'PhysicalObject' as `type`,
+  'PhysicalObject' AS `type`,
   modified,
-  'https://creativecommons.org/licenses/by/4.0/legalcode' as license,
-  'Royal Botanic Gardens Board' as rightsHolder,
+  'https://creativecommons.org/licenses/by/4.0/legalcode' AS license,
+  'Royal Botanic Gardens Board' AS rightsHolder,
   m.institutionCode,
   m.collectionCode,
-  'PreservedSpecimen' as basisOfRecord,
+  'PreservedSpecimen' AS basisOfRecord,
   
   -- Occurrence
   m.catalogNumber,
   m.occurrenceRemarks,
   m.recordNumber,
-  replace(m.recordedBy, '; ', '|') as recordedBy,
+  replace(m.recordedBy, '; ', '|') AS recordedBy,
   ai.recordedByID,
   m.reproductiveCondition,
   m.establishmentMeans,
-  'present' as occurrenceStatus,
-  replace(m.preparations, '; ', '|') as preparations,
-  replace(m.associatedSequences, ' | ', '|') as associatedSequences,
+  'present' AS occurrenceStatus,
+  replace(m.preparations, '; ', '|') AS preparations,
+  replace(m.associatedSequences, ' | ', '|') AS associatedSequences,
   -- associatedTaxa,
   
   -- Organism
@@ -868,7 +892,7 @@ SELECT
   -- Event
   m.eventID,
   m.parentEventID,
-  ipt_iso_date(m.eventDate) AS eventDate,
+  CONCAT_WS(ipt_iso_date(m.eventDateStart)/ipt_iso_date(m.eventDateEnd)) AS eventDate,
   ipt_startDayOfYear(m.eventDate) AS startDayOfYear,
   m.`year`,
   m.`month`,
@@ -885,7 +909,7 @@ SELECT
   m.countryCode,
   m.stateProvince,
   m.county,
-  m.verbatimLocality as locality,
+  m.verbatimLocality AS locality,
   m.verbatimLocality,
   m.verbatimElevation,
   m.minimumElevationInMeters,
@@ -893,15 +917,15 @@ SELECT
   m.verbatimDepth,
   m.minimumDepthInMeters,
   m.maximumDepthInMeters,
-  IF(m.decimalLatitude IS NOT NULL, m.verbatimLatitude, NULL) as verbatimLatitude,
+  IF(m.decimalLatitude IS NOT NULL, m.verbatimLatitude, NULL) AS verbatimLatitude,
   IF(m.verbatimLongitude IS NOT NULL, m.verbatimLongitude, NULL) AS verbatimLongitude,
   m.verbatimCoordinateSystem,
-  srs_from_datum(m.geodeticDatum) as verbatimSRS,
+  srs_from_datum(m.geodeticDatum) AS verbatimSRS,
   m.decimalLatitude,
   m.decimalLongitude,
-  srs_from_datum(m.geodeticDatum) as geodeticDatum,
+  srs_from_datum(m.geodeticDatum) AS geodeticDatum,
   m.coordinateUncertaintyInMeters,
-  m.coordinatePrecision,
+  ROUND(m.coordinatePrecision, 7) AS coordinatePrecision,
   m.georeferencedBy,
   m.georeferencedDate,
   m.georeferenceProtocol,
@@ -911,7 +935,7 @@ SELECT
   
   -- Identification
   m.identificationID,
-  replace(m.identifiedBy, '; ', '|') as identifiedBy,
+  replace(m.identifiedBy, '; ', '|') AS identifiedBy,
   ai.identifiedByID,
   m.dateIdentified,
   m.identificationRemarks,
@@ -930,7 +954,7 @@ SELECT
   m.taxonRank,
   m.scientificNameAuthorship,
   m.taxonRemarks,
-  'ICN' as nomenclaturalCode,
+  'ICN' AS nomenclaturalCode,
   m.nomenclaturalStatus
   
 FROM mel_avh_occurrence_core m
@@ -966,6 +990,11 @@ END $$
 
 DELIMITER ;
 ```
+
+#### eventDate
+
+We concatenate `eventDateStart` and `eventDateEnd` with 
+`CONCAT_WS('/', ipt_iso_date(m.eventDateStart, m.eventDateEnd)`.
 
 #### startDayOfYear
 
@@ -1026,6 +1055,13 @@ END$$
 
 DELIMITER ;
 ```
+
+#### coordinatePrecision
+
+While `Latitude1` and `Longitude1` are stored with ten decimal places, the 
+exported values only have seven. Therefore, we round the values of 
+`coordinatePrecision` to seven decimal places as well in order to try and pass 
+the 'Coordinate precision not valid' test in ALA.
 
 #### recordedByID, identifiedByID
 
