@@ -892,8 +892,8 @@ SELECT
   -- Event
   m.eventID,
   m.parentEventID,
-  CONCAT_WS(ipt_iso_date(m.eventDateStart)/ipt_iso_date(m.eventDateEnd)) AS eventDate,
-  ipt_startDayOfYear(m.eventDate) AS startDayOfYear,
+  CONCAT_WS('/', ipt_iso_date(m.eventDateStart)/ipt_iso_date(m.eventDateEnd)) AS eventDate,
+  IF(m.eventDateEnd IS NULL, ipt_startDayOfYear(m.eventDateStart), NULL) AS startDayOfYear,
   m.`year`,
   m.`month`,
   m.`day`,
