@@ -970,7 +970,7 @@ to have everything in the data.
 
 #### Aggregated terms
 
-We prefer to use a semicolon as the separrator in aggregated values, but Darwin 
+We prefer to use a semicolon as the separator in aggregated values, but Darwin 
 Core recommends pipes, so I replace the semicolons with pipes.
 
 #### Incomplete dates
