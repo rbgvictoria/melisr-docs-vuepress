@@ -9,3 +9,5 @@
   have changed significantly.
 
 - [Specify to Darwin Core mapping](./specify-dwc-mapping/)
+
+- [Specify IPT integration](./specify-ipt-integration/)

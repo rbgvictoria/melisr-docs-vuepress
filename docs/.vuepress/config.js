@@ -54,7 +54,8 @@ module.exports = {
         'melisr-fields-in-avh/',
         ['herbarium-interactions/', 'Herbarium interactions'],
         ['business-case/', 'Business case (2009)'],
-        ['specify-dwc-mapping/', 'Specify to Darwin Core mapping']
+        ['specify-dwc-mapping/', 'Specify to Darwin Core mapping'],
+        ['specify-ipt-integration/', 'Specify IPT integration']
       ],
       '/': [
         '/'
