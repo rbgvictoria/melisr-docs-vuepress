@@ -105,7 +105,7 @@ select co.CollectionObjectID as id, co.GUID as occurrenceID,
   l.Latitude1 as decimalLatitude,
   l.Longitude1 as decimalLongitude,
   srs_from_datum(l.Datum) as geodeticDatum,
-  if(gc.MaxUncertaintyEst IS NOT NULL, ROUND(gc.MaxUncertaintyEst), coordinate_uncertainty_in_meters(l.OriginalElevationUnit)) as coordinateUncertaintyInMeters,
+  coalesce(l.LatLongAccuracy, ROUND(gc.MaxUncertaintyEst), coordinate_uncertainty_in_meters(l.OriginalElevationUnit)) as coordinateUncertaintyInMeters,
   gc.NamedPlaceExtent as coordinatePrecision,
   concat_ws(', ', gca.LastName, gca.FirstName) as georeferencedBy,
   gc.GeoRefDetDate as georeferencedDate,
@@ -170,10 +170,12 @@ are produced with Specify 7, as our data is stored in a different way than we
 want to export/publish it in and we also have extensions with external data (for 
 images for example).
 
-### Extra functions
+## Extra functions
 
 These extra functions were written to do what is done by formatters and 
 aggregators in Specify.
+
+### collectorstring()
 
 ```sql
 -- collector_string
@@ -207,6 +209,8 @@ END$$
 DELIMITER ;
 ```
 
+### recorded_by_id()
+
 ```sql
 -- recorded_by_id
 DROP function IF EXISTS `recorded_by_id`;
@@ -230,6 +234,8 @@ END$$
 DELIMITER ;
 ```
 
+### preparations()
+
 ```sql
 -- preparations
 DROP function IF EXISTS `preparations`;
@@ -251,6 +257,8 @@ END$$
 DELIMITER ;
 ```
 
+### associated_sequences()
+
 ```sql
 -- associated_sequences
 DROP function IF EXISTS `associated_sequences`;
@@ -270,6 +278,8 @@ END$$
 
 DELIMITER ;
 ```
+
+### previous_identifications()
 
 ```sql
 -- previous_identifications
@@ -294,6 +304,8 @@ END$$
 
 DELIMITER ;
 ```
+
+### identification_string()
 
 ```sql
 -- identification_string
@@ -325,6 +337,8 @@ END$$
 DELIMITER ;
 ```
 
+### identified_by_id()
+
 ```sql
 -- identified_by_id
 DROP function IF EXISTS `identified_by_id`;
@@ -350,7 +364,9 @@ END$$
 DELIMITER ;
 ```
 
-### Denormalised Taxon tree
+## Denormalise trees
+
+### Taxon tree
 
 In order for the publication of the Darwin Core Archive to complete in a 
 reasonable amont of time, we need to cache a denormalised version of the Taxon 
@@ -365,7 +381,10 @@ sure that I am not using this table for anything else).
 While you could just update the records that have changed since the last update, 
 I choose to replace all records every time – even though this takes almost three 
 hours – as I am not sure every change in the Taxon tree will lead to a change of 
-the `TimestampModified` in the Taxon table.
+the `TimestampModified` in the Taxon table. It is not terrible if a Darwin Core 
+Archive is published before the auxilliary higher taxonomy table has been 
+updated, as the essential information is in the Taxon table and the higher 
+classification can be picked up in the next publication. We publish every week.
 
 **Table create statement**
 ```sql
@@ -519,8 +538,7 @@ END$$
 
 DELIMITER ;
 ```
-
-### Denormalise Geography tree
+### Geography tree
 
 The Geography tree also needs to be flattened. I have added `countryCode` to 
 this table as well, so it does not need to be stored in a custom field in the 
