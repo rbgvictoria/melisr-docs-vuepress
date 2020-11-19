@@ -98,11 +98,15 @@ The Verbatim collector field was added when we migrated from Texpress to Specify
 
 Some people are more methodical than others in using it, and I’d like to mandate its use for every record. Having undertaken extensive research on 19th-century female plant collectors – and spending WEEKS revisiting specimens to disambiguate collectors – I know that having this data available for every record greatly facilitates research on the social history of collections. 
 
+![Example use of Verbatim collectors field](./media/verbatim-collector.jpg)
+
 ### Collector previously recorded as <small>(collectingeventattribute.remarks)</small>
 
 We’ve recently added a Coll. prev. recorded as field. This field will only be used for existing records without anything in the Verbatim collector field. It will store the collector’s name as it was previously been recorded in either Texpress or Specify, if their name has since been standardised in the Collector field. Having this field allows us to standardise variants of agent’s names in the Collector field, without losing the link between the agent variant and the collecting event. It will probably mainly be used for contemporary collectors for whom we have variations of their initials, e.g. ‘B. Rye’ and ‘B.L. Rye’. We are 99.9% sure that they are the same person, so we’ll update the ‘B. Rye’ entries in the Collector field to ‘B.L. Rye’ and populate Coll. prev. recorded as with ‘B. Rye’.  
 
 This will make the management of the agent records much simpler; we can maintain a single record for each collector without losing any information about how a name was previously recorded. If it turns out that we made a mistake, then we haven’t lost that link and can change the records back. 
+
+![Example use of Coll. previously recorded as field](./media/coll-previously-recorded-as.jpg)
 
  
 For records migrated from Texpress, the Coll. prev. recorded as field will include names from the Texpress collector field that had brackets to show information that wasn’t on the label, e.g. ‘Kotschy, [C.G.]T.’. 
