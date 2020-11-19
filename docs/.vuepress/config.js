@@ -55,7 +55,8 @@ module.exports = {
         ['herbarium-interactions/', 'Herbarium interactions'],
         ['business-case/', 'Business case (2009)'],
         ['specify-dwc-mapping/', 'Specify to Darwin Core mapping'],
-        ['specify-ipt-integration/', 'Specify IPT integration']
+        ['specify-ipt-integration/', 'Specify IPT integration'],
+        ['people-in-specify/', 'People and people identifiers in Specify']
       ],
       '/': [
         '/'

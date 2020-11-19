@@ -11,3 +11,5 @@
 - [Specify to Darwin Core mapping](./specify-dwc-mapping/)
 
 - [Specify IPT integration](./specify-ipt-integration/)
+
+- [People and people identifiers in Specify](./people-in-specify/)
