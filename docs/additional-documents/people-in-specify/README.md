@@ -1,9 +1,5 @@
 # People and people identifiers in Specify
 
-::: warning
-This article is still a draft
-:::
-
 ## Background
 
 Driven by the TDWG Attribution Interest Group, projects like the Biodiversity Heritage Library (BHL) and citizen scientists, a strong interest in people and the contributions they make to biodiversity data has emerged in the TDWG community. Since the Biodiversity_Next conference in October 2019, a People in Biodiversity Task Group has been working on a Darwin Core Archive (DwCA)/Internet Publishing Toolkit (IPT) Agent Action extension. Now that this work is coming to an end, the Task Group has spawned a Disambiguation working group.
@@ -74,11 +70,7 @@ END$$
 DELIMITER ;
 ```
 
-## Disambiguation of collectors
-
-::: tip
-Alison's preliminary notes on how we try to disambiguate our collector data
-:::
+## Collectors' names in MELISR
 
 We have three fields in MELISR that we use to try to record collectors accurately and unambiguously without losing any information on the label. 
 
@@ -90,25 +82,38 @@ The motivation for this is threefold:
 
 ### Collector(s) <small>(collectingevent.collectors&rarr;Collector)</small>
 
-The Collector(s) field references the Agent table and records collectors in standardised form. Depending on how the collector’s name is presented on the label, the content of this field is often interpreted from an abbreviated or variant form of their name or, in the absence of a name entirely, inferred from handwriting or other collecting info.  
+The **Collector(s)** field references the **Agent** table and records collectors in standardised form. Depending on how the collector's name is presented on the label, the content of this field is often interpreted from an abbreviated or variant form of their name or, in the absence of a name entirely, inferred from handwriting or other collecting info.  
 
 ### Verbatim collectors <small>(collectingeventattribute.text1)</small>
 
-The Verbatim collector field was added when we migrated from Texpress to Specify. It is used to record all the details of the collector’s name as it appears on the label, including titles, first names and abbreviations (e.g. Dr FvM, J.Dr., Miss Mary Bate) that are lost when we standardise their name in the Agent table. 
+The **Verbatim collector** field was added when we migrated from Texpress to Specify. It is used to record all the details of the collector's name as it appears on the label, including titles, first names and abbreviations (e.g. Dr FvM, J.Dr., Miss Mary Bate) that are lost when we standardise their name in the **Agent** table.
 
-Some people are more methodical than others in using it, and I’d like to mandate its use for every record. Having undertaken extensive research on 19th-century female plant collectors – and spending WEEKS revisiting specimens to disambiguate collectors – I know that having this data available for every record greatly facilitates research on the social history of collections. 
+Some people are more methodical than others in using it, and I'd like to mandate its use for every record. Having undertaken extensive research on 19<sup>th</sup>-century female plant collectors – and spending WEEKS revisiting specimens to disambiguate collectors – I know that having this data available for every record greatly facilitates research on the social history of collections.
 
 ![Example use of Verbatim collectors field](./media/verbatim-collector.jpg)
 
-### Collector previously recorded as <small>(collectingeventattribute.remarks)</small>
+### Collector previously recorded as <small>(collectingeventattribute.remarks)</small>
 
-We’ve recently added a Coll. prev. recorded as field. This field will only be used for existing records without anything in the Verbatim collector field. It will store the collector’s name as it was previously been recorded in either Texpress or Specify, if their name has since been standardised in the Collector field. Having this field allows us to standardise variants of agent’s names in the Collector field, without losing the link between the agent variant and the collecting event. It will probably mainly be used for contemporary collectors for whom we have variations of their initials, e.g. ‘B. Rye’ and ‘B.L. Rye’. We are 99.9% sure that they are the same person, so we’ll update the ‘B. Rye’ entries in the Collector field to ‘B.L. Rye’ and populate Coll. prev. recorded as with ‘B. Rye’.  
+We have recently added a new field to MELISR: **Coll. prev. recorded as**. This field will only be used for existing records without anything in the **Verbatim collector** field.
 
-This will make the management of the agent records much simpler; we can maintain a single record for each collector without losing any information about how a name was previously recorded. If it turns out that we made a mistake, then we haven’t lost that link and can change the records back. 
+**Coll. prev. recorded as** will store the collector's name in the format in which it was previously recorded (in either Texpress or Specify), if their name has since been standardised in the **Collector** field.
+
+It allows us to standardise variants of agent's names in the **Collector** field, without losing the link between the agent variant and the collecting event.
+
+#### Names previously recorded in Texpress
+
+In our previous, non-relational, Texpress database, we formatted collectors' names in a semi-standardised way, using brackets to denote parts of the name that had been inferred or interpreted: 'J.Dr.' on the label was entered as 'Dr\[ummond\], J.'; 'Mrs T.P. Richards' was entered as 'Richards, \[A.F.\]'; 'B. Rye' was entered as 'Rye, B.\[L.\]' etc.
+
+When we migrated to Specify, we needed to link collectors to **Agent** records without all the various configurations of letters and brackets, but we didn't want to lose the information about what parts of the name weren't on the label. So, we moved that data into the **Verbatim collector** field. That was a less-than-deal solution so, rather than conflate the Texpress-formatted names with the verbatim collector, we now store them in the **Coll. prev. recorded** **as** field.
+
+#### Names previously recorded in Specify
+
+Although we cleaned up *a lot* of collectors' names when we migrated from Texpress to Specify, we still ended up with multiple agent records for the one person. Most of the double agents are collectors who are sometimes recorded with the initials of all their given names (e.g. 'B.L. Rye), and sometimes with only their first initial (i.e. 'B. Rye').
+
+Although we are 99.9% sure that they are the same person, we don't want to lose the link between a variation of a collector's name and a given collecting event. So, we'll update the 'B. Rye' entries in the **Collector** field to 'B.L. Rye' and populate **Coll. prev. recorded as** with 'B. Rye'.
+
+This will make the management of the agent records much simpler; we can maintain a single record for each collector without losing any information about how a name was previously recorded. If it turns out that we made a mistake, then we haven't lost that link and can change the records back.
 
 ![Example use of Coll. previously recorded as field](./media/coll-previously-recorded-as.jpg)
-
  
-For records migrated from Texpress, the Coll. prev. recorded as field will include names from the Texpress collector field that had brackets to show information that wasn’t on the label, e.g. ‘Kotschy, [C.G.]T.’. 
-
-Once our entire collection has been imaged, I plan to have DigiVol expeditions to populate the Verbatim collector field for all our records, which would then make the Coll. prev. recorded as field obsolete.  
+Once our entire collection has been imaged, I plan to have DigiVol expeditions to populate the **Verbatim collector** field for all our records, which would then make the **Coll. prev. recorded as** field obsolete.
