@@ -12,7 +12,10 @@ This is the rather impressive-looking (if I may say so myself) query I came up
 with.
 
 ```sql
-select co.CollectionObjectID as id, co.GUID as occurrenceID,
+select 
+  co.CollectionObjectID as id, 
+  co.GUID as occurrenceID,
+  
   -- record level terms
   'PhysicalObject' as "type",
   co.TimestampModified as modified,
