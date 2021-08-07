@@ -141,7 +141,7 @@ AND p.Integer1 IS NULL
 
 ### InappropriateQuantityInPreparation
 
-The quantity is invalid for the preparation type [sic]
+The quantity is invalid for the preparation type
 
 ```sql{3,5-6}
 SELECT co.CollectionObjectID
