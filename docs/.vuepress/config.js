@@ -57,7 +57,8 @@ module.exports = {
         ['specify-dwc-mapping/', 'Specify to Darwin Core mapping'],
         ['specify-ipt-integration/', 'Specify IPT integration'],
         ['people-in-specify/', 'People and people identifiers in Specify'],
-        ['qa-tests/', 'Quality assurance tests']
+        ['qa-tests/', 'Quality assurance tests'],
+        ['specify-ipt-integration-pt2/', 'Specify IPT integration – Part 2'],
       ],
       '/': [
         '/'

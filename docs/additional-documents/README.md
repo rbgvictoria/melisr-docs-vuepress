@@ -15,3 +15,5 @@
 - [People and people identifiers in Specify](./people-in-specify/)
 
 - [Quality assurance tests](./qa-tests/)
+
+- [Specify IPT integration – Part 2](./specify-ipt-integration-pt2/)
